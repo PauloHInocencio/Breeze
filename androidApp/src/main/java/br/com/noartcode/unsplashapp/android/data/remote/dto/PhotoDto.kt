@@ -1,8 +1,8 @@
-package br.com.noartcode.unsplashapp.android.api.entry
+package br.com.noartcode.unsplashapp.android.data.remote.dto
 
 import com.squareup.moshi.Json
 
-data class Photo(
+data class PhotoDto(
     val id: String,
     @field:Json(name = "alt_description")
     val altDescription: String?,
@@ -15,7 +15,7 @@ data class Photo(
     val likes: Int,
     val urls: Urls,
     @field:Json(name = "user")
-    val photographer: Photographer?,
+    val photographer: PhotographerDto?,
 ) {
     data class Urls(
         val full: String,

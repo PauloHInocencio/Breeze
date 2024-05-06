@@ -1,4 +1,4 @@
-package br.com.noartcode.unsplashapp.android.api
+package br.com.noartcode.unsplashapp.android.data.remote
 
 import br.com.noartcode.unsplashapp.android.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher

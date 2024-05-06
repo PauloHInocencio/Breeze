@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import br.com.noartcode.unsplashapp.android.presentation.PhotosRandomListScreen
-import br.com.noartcode.unsplashapp.android.presentation.PhotosRandomListViewModel
+import br.com.noartcode.unsplashapp.android.navigation.AppNavigation
+import br.com.noartcode.unsplashapp.android.presentation.random.RandomPhotosScreen
+import br.com.noartcode.unsplashapp.android.presentation.random.RandomPhotosViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -23,11 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val viewModel:PhotosRandomListViewModel by viewModels()
-                    PhotosRandomListScreen(
-                        state = viewModel.state.collectAsState().value,
-                        onEvent = viewModel::onEvent
-                    )
+                    AppNavigation()
                 }
             }
         }

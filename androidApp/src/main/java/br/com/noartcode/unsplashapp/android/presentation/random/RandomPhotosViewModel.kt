@@ -1,15 +1,15 @@
-@file:OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+@file:OptIn(FlowPreview::class)
 
-package br.com.noartcode.unsplashapp.android.presentation
+package br.com.noartcode.unsplashapp.android.presentation.random
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.noartcode.unsplashapp.android.api.entry.Photo
+import br.com.noartcode.unsplashapp.android.data.remote.dto.PhotoDto
 import br.com.noartcode.unsplashapp.android.domain.PhotosRepository
+import br.com.noartcode.unsplashapp.android.domain.model.Photo
 import br.com.noartcode.unsplashapp.android.util.doIfError
 import br.com.noartcode.unsplashapp.android.util.doIfSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,19 +24,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-sealed class PhotosRandomLisEvent {
-    data object OnLoadMore : PhotosRandomLisEvent()
-    data object OnDismissError : PhotosRandomLisEvent()
+sealed class RandomPhotosEvent {
+    data object OnLoadMore : RandomPhotosEvent()
+    data object OnDismissError : RandomPhotosEvent()
 }
 
-data class PhotosRandomListUiState(
+data class RandomPhotosUiState(
     val photos: List<Photo> = emptyList(),
     val isLoading: Boolean = false,
     val errorMessage:String? = null
 )
 
 @HiltViewModel
-class PhotosRandomListViewModel @Inject constructor(
+class RandomPhotosViewModel @Inject constructor(
     private val repository: PhotosRepository
 ) : ViewModel() {
 
@@ -49,7 +49,7 @@ class PhotosRandomListViewModel @Inject constructor(
 
     val state = combine(_photos, _errorMessage, _isLoading) {
         photos, errorMessage, isLoading ->
-        PhotosRandomListUiState(
+        RandomPhotosUiState(
             photos = photos,
             isLoading = isLoading,
             errorMessage = errorMessage
@@ -57,17 +57,17 @@ class PhotosRandomListViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = PhotosRandomListUiState()
+        initialValue = RandomPhotosUiState()
     )
 
-    fun onEvent(event:PhotosRandomLisEvent) {
+    fun onEvent(event: RandomPhotosEvent) {
         when(event) {
-            PhotosRandomLisEvent.OnLoadMore -> {
+            RandomPhotosEvent.OnLoadMore -> {
                 job?.cancel()
                 loadMore()
             }
 
-            PhotosRandomLisEvent.OnDismissError -> {
+            RandomPhotosEvent.OnDismissError -> {
                 _errorMessage.update { null }
             }
         }

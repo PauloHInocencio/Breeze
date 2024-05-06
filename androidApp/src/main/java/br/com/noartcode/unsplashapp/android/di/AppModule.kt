@@ -1,10 +1,14 @@
 package br.com.noartcode.unsplashapp.android.di
 
 import android.content.Context
+import androidx.room.Room
 import br.com.noartcode.unsplashapp.android.BuildConfig
-import br.com.noartcode.unsplashapp.android.api.BasicAuthInterceptor
-import br.com.noartcode.unsplashapp.android.api.ConnectionInterceptor
-import br.com.noartcode.unsplashapp.android.api.PhotosRetrofitApi
+import br.com.noartcode.unsplashapp.android.data.local.PhotographerDao
+import br.com.noartcode.unsplashapp.android.data.local.PhotosDao
+import br.com.noartcode.unsplashapp.android.data.local.PhotosDatabase
+import br.com.noartcode.unsplashapp.android.data.remote.BasicAuthInterceptor
+import br.com.noartcode.unsplashapp.android.data.remote.ConnectionInterceptor
+import br.com.noartcode.unsplashapp.android.data.remote.PhotosRetrofitApi
 import br.com.noartcode.unsplashapp.android.data.repository.PhotosRepositoryImp
 import br.com.noartcode.unsplashapp.android.domain.PhotosRepository
 import dagger.Module
@@ -46,7 +50,30 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesPhotosRepository(api: PhotosRetrofitApi) : PhotosRepository {
-        return PhotosRepositoryImp(api = api)
+    fun providesPhotosRepository(api: PhotosRetrofitApi, dao: PhotosDao) : PhotosRepository {
+        return PhotosRepositoryImp(api = api, photosDao = dao)
     }
+
+    @Provides
+    @Singleton
+    fun providesPhotosDatabase(@ApplicationContext appContext: Context) : PhotosDatabase =
+        Room.databaseBuilder(
+            context = appContext,
+            klass = PhotosDatabase::class.java,
+            name ="photos-database"
+        ).build()
+
+
+    @Provides
+    @Singleton
+    fun providesPhotosDao(database: PhotosDatabase) : PhotosDao = database.photosDao()
+
+    @Provides
+    @Singleton
+    fun providesPhotographerDao(database: PhotosDatabase) : PhotographerDao{
+        return database.photographerDao()
+    }
+
+
+
 }

@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.compose.material.iconsExtended)
+    implementation(libs.compose.animation)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
 
@@ -76,6 +78,13 @@ dependencies {
     implementation(libs.okhttp3)
     implementation(libs.retrofit.converter.moshi)
     implementation(libs.okhttp3.logging.interceptor)
+
+    // Room
+    implementation(libs.room)
+    implementation(libs.room.coroutines)
+    kapt(libs.room.compiler)
+    testImplementation(libs.room.testing)
+
 
     // Coil
     implementation(libs.coil.kt.compose)

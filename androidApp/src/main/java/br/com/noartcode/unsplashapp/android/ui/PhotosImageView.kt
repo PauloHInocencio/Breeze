@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import br.com.noartcode.unsplashapp.android.presentation.imageAspectRatio
+import br.com.noartcode.unsplashapp.android.domain.model.Photo
+import br.com.noartcode.unsplashapp.android.presentation.random.imageAspectRatio
 import coil.compose.AsyncImage
 
 @Composable
-fun PhotosImageView(photoUrl:String) {
+fun PhotosImageView(photo: Photo) {
     AsyncImage(
-        model = photoUrl,
+        model = photo.url,
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier

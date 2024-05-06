@@ -1,4 +1,4 @@
-package br.com.noartcode.unsplashapp.android.api
+package br.com.noartcode.unsplashapp.android.data.remote
 
 import android.content.Context
 import android.net.ConnectivityManager

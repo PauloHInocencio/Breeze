@@ -1,7 +1,7 @@
-package br.com.noartcode.unsplashapp.android.api
+package br.com.noartcode.unsplashapp.android.data.remote
 
-import br.com.noartcode.unsplashapp.android.api.entry.Photo
-import br.com.noartcode.unsplashapp.android.api.entry.PhotosResponse
+import br.com.noartcode.unsplashapp.android.data.remote.dto.PhotoDto
+import br.com.noartcode.unsplashapp.android.data.remote.dto.PhotosResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -22,5 +22,5 @@ interface PhotosRetrofitApi {
     @GET("photos/random")
     suspend fun fetchRandomPhotos(
         @Query("count") count:Int = 20
-    ) : List<Photo>
+    ) : List<PhotoDto>
 }
