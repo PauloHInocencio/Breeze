@@ -5,6 +5,7 @@ import br.com.noartcode.unsplashapp.android.domain.model.Photo
 
 fun PhotoEntity.toDomain() : Photo =
     Photo(
-        id = this.originalId,
+        id = this.id,
+        originalId = this.originalId,
         url = this.urls.regular
     )

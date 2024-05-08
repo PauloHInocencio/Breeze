@@ -13,7 +13,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class PhotosRepositoryImp @Inject constructor(
@@ -27,26 +28,23 @@ class PhotosRepositoryImp @Inject constructor(
     }
 
     override fun getRandomPhotos(): Flow<Resource<List<Photo>>>  = flow {
-        val photos = withContext(defaultDispatcher)  {
-            return@withContext photosDao.fetchRandomPhotos(limit = PAGE_SIZE, offset = PAGE_SIZE * currentPage).map { it.toDomain() }
-        }
+        val photos = photosDao.fetchRandomPhotos(limit = PAGE_SIZE, offset = PAGE_SIZE * currentPage).map { it.toDomain() }
         if (photos.isEmpty()) {
             when(val result = safeApiCall(defaultDispatcher) { api.fetchRandomPhotos()} ){
                 is Resource.Success -> {
-                    val photosEntities = result.data.map { it.toEntity()}
-                    photosDao.insertPhotos(photosEntities)
-                    currentPage += 1
-                    emit(Resource.Success(data = photosEntities.map { it.toDomain() }))
+                    photosDao.insertPhotos(result.data.map { it.toEntity()})
+                    emit(Resource.Success(data = photosDao.fetchRandomPhotos(limit = PAGE_SIZE, offset = PAGE_SIZE * currentPage).map { it.toDomain() }))
                 }
                 is Resource.Error -> {
                     emit(result)
                 }
             }
         } else {
-            currentPage += 1
             emit(Resource.Success(photos))
         }
     }
+        .onCompletion { currentPage += 1 }
+        .flowOn(defaultDispatcher)
 
     override suspend fun cleanPhotos(): Resource<Unit> {
         currentPage = 0
