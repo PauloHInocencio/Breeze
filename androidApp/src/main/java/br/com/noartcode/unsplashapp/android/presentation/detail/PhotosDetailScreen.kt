@@ -1,5 +1,9 @@
 package br.com.noartcode.unsplashapp.android.presentation.detail
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
@@ -22,9 +26,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntSize
 import br.com.noartcode.unsplashapp.android.ui.PhotosImageView
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun PhotosDetailScreen(
+fun SharedTransitionScope.PhotosDetailScreen(
     state: PhotosDetailUiState,
+    animatedVisibilityScope:AnimatedVisibilityScope,
     modifier:Modifier = Modifier,
 ) {
     var scale by remember {
@@ -40,7 +46,9 @@ fun PhotosDetailScreen(
     }
 
     BoxWithConstraints(
-        modifier = modifier.fillMaxWidth().aspectRatio(9f/16f),
+        modifier = modifier
+            .fillMaxWidth()
+            .aspectRatio(9f / 16f),
         contentAlignment = Alignment.Center
     ) {
 
@@ -80,11 +88,18 @@ fun PhotosDetailScreen(
                                 onDoubleTap = { tapOffset ->
                                     offset = if (zoomed) Offset.Zero else
                                         calculateOffset(tapOffset, size)
-                                    scale = if(zoomed) 1f else 2f
+                                    scale = if (zoomed) 1f else 2f
                                     zoomed = !zoomed
                                 }
                             )
                         }
+                        .sharedElement(
+                            state = rememberSharedContentState(key = "image/${photo.id}" ),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        )
                 )
             }
         }

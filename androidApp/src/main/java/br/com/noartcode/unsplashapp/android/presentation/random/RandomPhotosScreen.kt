@@ -1,5 +1,9 @@
 package br.com.noartcode.unsplashapp.android.presentation.random
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,11 +28,13 @@ import br.com.noartcode.unsplashapp.android.ui.extensions.reachedBottom
 
 const val imageAspectRatio = 4f/5f
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun RandomPhotosScreen(
+fun SharedTransitionScope.RandomPhotosScreen(
     state: RandomPhotosUiState,
     onEvent:(RandomPhotosEvent) -> Unit,
     onNavigateToDetail: (Long) -> Unit,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
     val gridState = rememberLazyGridState()
@@ -48,7 +54,15 @@ fun RandomPhotosScreen(
         items(state.photos, key = { it.id }) { photo ->
             PhotosImageView(
                 photo,
-                modifier = Modifier.clickable { onNavigateToDetail(photo.id) }
+                modifier = Modifier
+                    .clickable { onNavigateToDetail(photo.id) }
+                    .sharedElement(
+                        state = rememberSharedContentState(key = "image/${photo.id}" ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 500)
+                        }
+                    )
             )
         }
     }

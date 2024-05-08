@@ -1,5 +1,10 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package br.com.noartcode.unsplashapp.android.navigation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -59,46 +64,53 @@ fun AppNavigation() {
             }
         }
     ) { paddingValues ->
-        NavHost(
-            navController = navController,
-            startDestination = Screens.RandomPhotos.name,
-            modifier = Modifier.padding(paddingValues)
-        ) {
 
-            composable(route = Screens.RandomPhotos.name) {
-                val viewModel = hiltViewModel<RandomPhotosViewModel>()
-                RandomPhotosScreen(
-                    state = viewModel.state.collectAsState().value,
-                    onEvent = viewModel::onEvent,
-                    onNavigateToDetail = { id ->
-                       navController.navigate("${Screens.PhotosDetail.name}?photoId=$id")
-                    }
-                )
-            }
 
-            composable(route = Screens.SearchPhotos.name) {
-                SearchPhotosScreen()
-            }
+        SharedTransitionLayout {
+            NavHost(
+                navController = navController,
+                startDestination = Screens.RandomPhotos.name,
+                modifier = Modifier.padding(paddingValues)
+            ) {
 
-            composable(route = Screens.PhotosCollections.name) {
-                PhotosCollectionScreen()
-            }
-
-            composable(
-                route = "${Screens.PhotosDetail.name}?photoId={photoId}",
-                arguments = listOf(navArgument("photoId") { type = NavType.LongType})
-            ) { backStackEntry ->
-                val id = checkNotNull(backStackEntry.arguments?.getLong("photoId"))
-                val viewModel = hiltViewModel<PhotosDetailViewModel>()
-                PhotosDetailScreen(
-                    state = viewModel.state.collectAsState().value,
-                )
-
-                LaunchedEffect(Unit) {
-                    viewModel.onEvent(PhotosDetailEvent.OnLoadPhoto(id))
+                composable(route = Screens.RandomPhotos.name) {
+                    val viewModel = hiltViewModel<RandomPhotosViewModel>()
+                    RandomPhotosScreen(
+                        state = viewModel.state.collectAsState().value,
+                        onEvent = viewModel::onEvent,
+                        onNavigateToDetail = { id ->
+                            navController.navigate("${Screens.PhotosDetail.name}?photoId=$id")
+                        },
+                        animatedVisibilityScope = this
+                    )
                 }
 
+                composable(route = Screens.SearchPhotos.name) {
+                    SearchPhotosScreen()
+                }
+
+                composable(route = Screens.PhotosCollections.name) {
+                    PhotosCollectionScreen()
+                }
+
+                composable(
+                    route = "${Screens.PhotosDetail.name}?photoId={photoId}",
+                    arguments = listOf(navArgument("photoId") { type = NavType.LongType})
+                ) { backStackEntry ->
+                    val id = checkNotNull(backStackEntry.arguments?.getLong("photoId"))
+                    val viewModel = hiltViewModel<PhotosDetailViewModel>()
+                    PhotosDetailScreen(
+                        state = viewModel.state.collectAsState().value,
+                        animatedVisibilityScope = this
+                    )
+                    LaunchedEffect(Unit) {
+                        viewModel.onEvent(PhotosDetailEvent.OnLoadPhoto(id))
+                    }
+
+                }
             }
         }
+
+
     }
 }
