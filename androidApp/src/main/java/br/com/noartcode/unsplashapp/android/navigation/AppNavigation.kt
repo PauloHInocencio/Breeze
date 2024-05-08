@@ -7,17 +7,23 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.com.noartcode.unsplashapp.android.presentation.collection.PhotosCollectionScreen
+import br.com.noartcode.unsplashapp.android.presentation.detail.PhotosDetailEvent
+import br.com.noartcode.unsplashapp.android.presentation.detail.PhotosDetailScreen
+import br.com.noartcode.unsplashapp.android.presentation.detail.PhotosDetailViewModel
 import br.com.noartcode.unsplashapp.android.presentation.random.RandomPhotosScreen
 import br.com.noartcode.unsplashapp.android.presentation.random.RandomPhotosViewModel
 import br.com.noartcode.unsplashapp.android.presentation.search.SearchPhotosScreen
@@ -32,22 +38,23 @@ fun AppNavigation() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-
-                listOfNavItems.forEach { navItem ->
-                    NavigationBarItem(
-                        selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == navItem.route } == true,
-                        onClick = {
-                            navController.navigate(navItem.route) {
-                                popUpTo(navController.graph.findStartDestination().id)
-                                launchSingleTop = true
+            if (currentScreen != Screens.PhotosDetail) {
+                NavigationBar {
+                    listOfNavItems.forEach { navItem ->
+                        NavigationBarItem(
+                            selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == navItem.route } == true,
+                            onClick = {
+                                navController.navigate(navItem.route) {
+                                    popUpTo(navController.graph.findStartDestination().id)
+                                    launchSingleTop = true
+                                }
+                            },
+                            icon = { Icon(imageVector = navItem.icon, contentDescription = null) },
+                            label = {
+                                Text(text = navItem.label)
                             }
-                        },
-                        icon = { Icon(imageVector = navItem.icon, contentDescription = null) },
-                        label = {
-                            Text(text = navItem.label)
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
@@ -62,7 +69,10 @@ fun AppNavigation() {
                 val viewModel = hiltViewModel<RandomPhotosViewModel>()
                 RandomPhotosScreen(
                     state = viewModel.state.collectAsState().value,
-                    onEvent = viewModel::onEvent
+                    onEvent = viewModel::onEvent,
+                    onNavigateToDetail = { id ->
+                       navController.navigate("${Screens.PhotosDetail.name}?photoId=$id")
+                    }
                 )
             }
 
@@ -72,6 +82,22 @@ fun AppNavigation() {
 
             composable(route = Screens.PhotosCollections.name) {
                 PhotosCollectionScreen()
+            }
+
+            composable(
+                route = "${Screens.PhotosDetail.name}?photoId={photoId}",
+                arguments = listOf(navArgument("photoId") { type = NavType.LongType})
+            ) { backStackEntry ->
+                val id = checkNotNull(backStackEntry.arguments?.getLong("photoId"))
+                val viewModel = hiltViewModel<PhotosDetailViewModel>()
+                PhotosDetailScreen(
+                    state = viewModel.state.collectAsState().value,
+                )
+
+                LaunchedEffect(Unit) {
+                    viewModel.onEvent(PhotosDetailEvent.OnLoadPhoto(id))
+                }
+
             }
         }
     }

@@ -10,13 +10,18 @@ import br.com.noartcode.unsplashapp.android.presentation.random.imageAspectRatio
 import coil.compose.AsyncImage
 
 @Composable
-fun PhotosImageView(photo: Photo) {
+fun PhotosImageView(
+    photo: Photo,
+    aspectRatio:Float = imageAspectRatio,
+    contentScale: ContentScale = ContentScale.Crop,
+    modifier: Modifier = Modifier
+) {
     AsyncImage(
         model = photo.url,
         contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
+        contentScale = contentScale,
+        modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(imageAspectRatio),
+            .aspectRatio(aspectRatio),
     )
 }

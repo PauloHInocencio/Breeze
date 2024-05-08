@@ -1,5 +1,6 @@
 package br.com.noartcode.unsplashapp.android.presentation.random
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ const val imageAspectRatio = 4f/5f
 fun RandomPhotosScreen(
     state: RandomPhotosUiState,
     onEvent:(RandomPhotosEvent) -> Unit,
+    onNavigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val gridState = rememberLazyGridState()
@@ -44,7 +46,10 @@ fun RandomPhotosScreen(
             .padding(2.dp)
     ) {
         items(state.photos, key = { it.id }) { photo ->
-            PhotosImageView(photo)
+            PhotosImageView(
+                photo,
+                modifier = Modifier.clickable { onNavigateToDetail(photo.id) }
+            )
         }
     }
 

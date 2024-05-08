@@ -13,9 +13,11 @@ interface PhotosDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPhotos(photos: List<PhotoEntity>)
 
-    @Query("SELECT * FROM photos  ORDER BY id DESC LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM photos  ORDER BY id ASC LIMIT :limit OFFSET :offset")
     suspend fun fetchRandomPhotos(limit: Int, offset:Int) : List<PhotoEntity>
 
+    @Query("SELECT * FROM photos WHERE id == :id")
+    suspend fun getPhoto(id: Long) : PhotoEntity?
 
     @Query("DELETE FROM photos")
     suspend fun deletePhotos()

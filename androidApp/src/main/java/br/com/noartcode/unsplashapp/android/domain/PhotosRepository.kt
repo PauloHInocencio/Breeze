@@ -12,6 +12,8 @@ interface PhotosRepository {
 
     fun getRandomPhotos() : Flow<Resource<List<Photo>>>
 
+    suspend fun getPhoto(id:Long) : Resource<Photo>
+
     suspend fun cleanPhotos() : Resource<Unit>
 
 }

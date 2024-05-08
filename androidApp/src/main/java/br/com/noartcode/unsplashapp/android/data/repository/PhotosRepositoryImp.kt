@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PhotosRepositoryImp @Inject constructor(
@@ -45,6 +46,17 @@ class PhotosRepositoryImp @Inject constructor(
     }
         .onCompletion { currentPage += 1 }
         .flowOn(defaultDispatcher)
+
+    override suspend fun getPhoto(id: Long): Resource<Photo> = withContext(defaultDispatcher){
+        return@withContext try {
+            Resource.Success(data = checkNotNull(photosDao.getPhoto(id)!!.toDomain()))
+        } catch (e:Throwable) {
+            Resource.Error(
+                message = "Photo not found",
+                exception = e
+            )
+        }
+    }
 
     override suspend fun cleanPhotos(): Resource<Unit> {
         currentPage = 0
