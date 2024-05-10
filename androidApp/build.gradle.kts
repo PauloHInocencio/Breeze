@@ -36,6 +36,9 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
+            val key:String = gradleLocalProperties(rootDir, providers).getProperty("API_ACCESS_KEY")
+            buildConfigField("String", "API_ACCESS_KEY", key)
         }
 
         getByName("debug") {
