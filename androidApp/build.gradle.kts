@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 
@@ -81,6 +82,9 @@ dependencies {
     implementation(libs.okhttp3)
     implementation(libs.retrofit.converter.moshi)
     implementation(libs.okhttp3.logging.interceptor)
+
+    //Kotlinx Serialization
+    implementation(libs.kotlinx.serialization)
 
     // Room
     implementation(libs.room)

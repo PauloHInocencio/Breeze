@@ -4,46 +4,76 @@ package br.com.noartcode.unsplashapp.android.navigation
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavType
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import br.com.noartcode.unsplashapp.android.presentation.collection.PhotosCollectionScreen
+import androidx.navigation.toRoute
 import br.com.noartcode.unsplashapp.android.presentation.detail.PhotosDetailEvent
 import br.com.noartcode.unsplashapp.android.presentation.detail.PhotosDetailScreen
 import br.com.noartcode.unsplashapp.android.presentation.detail.PhotosDetailViewModel
 import br.com.noartcode.unsplashapp.android.presentation.random.RandomPhotosScreen
 import br.com.noartcode.unsplashapp.android.presentation.random.RandomPhotosViewModel
-import br.com.noartcode.unsplashapp.android.presentation.search.SearchPhotosScreen
+
 
 @Composable
+fun RandomNavGraph(
+     navController:NavHostController,
+     modifier: Modifier = Modifier
+) {
+    SharedTransitionLayout {
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Random.List::class,
+            route = Screen.Random::class,
+            modifier = modifier
+        ) {
+
+            composable<Screen.Random.List>{
+                val viewModel = hiltViewModel<RandomPhotosViewModel>()
+                RandomPhotosScreen(
+                    state = viewModel.state.collectAsState().value,
+                    onEvent = viewModel::onEvent,
+                    onNavigateToDetail = { id ->
+                        navController.navigate(Screen.Random.Detail(id))
+                    },
+                    animatedVisibilityScope = this
+                )
+            }
+
+            composable<Screen.Random.Detail>{ backStackEntry ->
+                val id = backStackEntry.toRoute<Screen.Random.Detail>().id
+                val viewModel = hiltViewModel<PhotosDetailViewModel>()
+                PhotosDetailScreen(
+                    state = viewModel.state.collectAsState().value,
+                    animatedVisibilityScope = this
+                )
+                LaunchedEffect(Unit) {
+                    viewModel.onEvent(PhotosDetailEvent.OnLoadPhoto(id))
+                }
+
+            }
+        }
+    }
+}
+
+/*@Composable
 fun AppNavigation() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = Screens.valueOf(
-        navBackStackEntry?.destination?.route?.substringBefore("?") ?: Screens.RandomPhotos.name
+    val currentScreen = ChildScreen.valueOf(
+        navBackStackEntry?.destination?.route?.substringBefore("?") ?: ChildScreen.ChildRandomPhotos.name
     )
 
     Scaffold(
         bottomBar = {
-            if (currentScreen != Screens.PhotosDetail) {
+            if (currentScreen != ChildScreen.PhotosDetail) {
                 NavigationBar {
                     listOfNavItems.forEach { navItem ->
                         NavigationBarItem(
@@ -69,32 +99,32 @@ fun AppNavigation() {
         SharedTransitionLayout {
             NavHost(
                 navController = navController,
-                startDestination = Screens.RandomPhotos.name,
+                startDestination = ChildScreen.ChildRandomPhotos.name,
                 modifier = Modifier.padding(paddingValues)
             ) {
 
-                composable(route = Screens.RandomPhotos.name) {
+                composable(route = ChildScreen.ChildRandomPhotos.name) {
                     val viewModel = hiltViewModel<RandomPhotosViewModel>()
                     RandomPhotosScreen(
                         state = viewModel.state.collectAsState().value,
                         onEvent = viewModel::onEvent,
                         onNavigateToDetail = { id ->
-                            navController.navigate("${Screens.PhotosDetail.name}?photoId=$id")
+                            navController.navigate("${ChildScreen.PhotosDetail.name}?photoId=$id")
                         },
                         animatedVisibilityScope = this
                     )
                 }
 
-                composable(route = Screens.SearchPhotos.name) {
+                composable(route = ChildScreen.ChildSearchPhotos.name) {
                     SearchPhotosScreen()
                 }
 
-                composable(route = Screens.PhotosCollections.name) {
+                composable(route = ChildScreen.ChildLikedPhotos.name) {
                     PhotosCollectionScreen()
                 }
 
                 composable(
-                    route = "${Screens.PhotosDetail.name}?photoId={photoId}",
+                    route = "${ChildScreen.PhotosDetail.name}?photoId={photoId}",
                     arguments = listOf(navArgument("photoId") { type = NavType.LongType})
                 ) { backStackEntry ->
                     val id = checkNotNull(backStackEntry.arguments?.getLong("photoId"))
@@ -113,4 +143,4 @@ fun AppNavigation() {
 
 
     }
-}
+}*/

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import br.com.noartcode.unsplashapp.android.MyApplicationTheme
 
 @Composable
-fun PhotosCollectionScreen(
+fun LikedPhotosScreen(
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -30,13 +30,13 @@ fun PhotosCollectionScreen(
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun PhotosCollectionScreen_Preview() {
+fun LikedPhotosScreen_Preview() {
     MyApplicationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            PhotosCollectionScreen()
+            LikedPhotosScreen()
         }
     }
 }

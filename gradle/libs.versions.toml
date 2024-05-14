@@ -14,10 +14,11 @@ junit5 = "5.10.2"
 coil = "2.4.0"
 hilt = "2.50"
 hilt-navigation-compose = "1.2.0"
-androidx-navigation = "2.7.7"
+androidx-navigation = "2.8.0-beta01"
 testRunnerVersion = "1.5.2"
 testRulesVersion = "1.5.0"
 room = "2.6.1"
+kotlinxSerialization = "1.6.3"
 
 
 
@@ -37,6 +38,9 @@ compose-animation = { module = "androidx.compose.animation:animation", version.r
 
 # Navigation
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation"}
+
+# Kotlix Serialization
+kotlinx-serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization"}
 
 # Retrofit
 retrofit = {module =  "com.squareup.retrofit2:retrofit", version.ref = "retrofit2"}
@@ -87,3 +91,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlinxSerialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
