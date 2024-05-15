@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import br.com.noartcode.unsplashapp.android.navigation.AppNavGraph
-import br.com.noartcode.unsplashapp.android.navigation.RandomNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 

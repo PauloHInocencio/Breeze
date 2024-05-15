@@ -2,7 +2,6 @@ package br.com.noartcode.unsplashapp.android.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AllInclusive
-import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.HeartBroken
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -20,16 +19,16 @@ val listOfNavItems = listOf(
     NavItem(
         label = "Random Photos",
         icon = Icons.Default.AllInclusive,
-        route = Screen.Random::class
+        route = Screen.RandomPhotosRoot::class
     ),
     NavItem(
         label = "Search Photos",
         icon = Icons.Default.Search,
-        route = Screen.Search::class
+        route = Screen.SearchedPhotosRoot::class
     ),
     NavItem(
         label = "Liked Photos",
         icon = Icons.Filled.HeartBroken,
-        route = Screen.Linked::class
+        route = Screen.LikedPhotosRoot::class
     )
 )
