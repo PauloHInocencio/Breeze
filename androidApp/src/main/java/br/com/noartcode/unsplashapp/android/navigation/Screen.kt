@@ -3,27 +3,27 @@ package br.com.noartcode.unsplashapp.android.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface Screen {
+sealed class Screen {
     @Serializable
-    data object RandomPhotosRoot: Screen
+    data object RandomPhotosRoot: Screen()
     @Serializable
-    data object RandomPhotosList:Screen
+    data object RandomPhotosList:Screen()
     @Serializable
-    data class RandomPhotosDetail(val id:Long): Screen
+    data class RandomPhotosDetail(val id:Long): Screen()
 
     @Serializable
-    data object SearchedPhotosRoot: Screen
+    data object SearchedPhotosRoot: Screen()
 
     @Serializable
-    data object SearchedPhotosList:Screen
+    data object SearchedPhotosList:Screen()
     @Serializable
-    data class SearchedPhotosDetail(val id:Long): Screen
+    data class SearchedPhotosDetail(val id:Long): Screen()
 
     @Serializable
-    data object LikedPhotosRoot: Screen
+    data object LikedPhotosRoot: Screen()
 
     @Serializable
-    data object LikedPhotosList:Screen
+    data object LikedPhotosList:Screen()
     @Serializable
-    data class LikedPhotosDetail(val id:Long): Screen
+    data class LikedPhotosDetail(val id:Long): Screen()
 }

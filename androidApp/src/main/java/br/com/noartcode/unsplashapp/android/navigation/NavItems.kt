@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 data class NavItem(
     val label:String,
     val icon: ImageVector,
-    val route: KClass<*>
+    val route: Screen
 )
 
 
@@ -19,16 +19,16 @@ val listOfNavItems = listOf(
     NavItem(
         label = "Random Photos",
         icon = Icons.Default.AllInclusive,
-        route = Screen.RandomPhotosRoot::class
+        route = Screen.RandomPhotosRoot
     ),
     NavItem(
         label = "Search Photos",
         icon = Icons.Default.Search,
-        route = Screen.SearchedPhotosRoot::class
+        route = Screen.SearchedPhotosRoot
     ),
     NavItem(
         label = "Liked Photos",
         icon = Icons.Filled.HeartBroken,
-        route = Screen.LikedPhotosRoot::class
+        route = Screen.LikedPhotosRoot
     )
 )

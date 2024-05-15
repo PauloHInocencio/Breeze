@@ -24,7 +24,7 @@ import br.com.noartcode.unsplashapp.android.presentation.random.RandomPhotosView
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun RandomPhotosNavGraph(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController
 ) {
     SharedTransitionLayout {
         NavHost(navController = navController,
