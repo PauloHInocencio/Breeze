@@ -21,7 +21,7 @@ fun LikedPhotosScreen(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Photos Collection Screen",
+            text = "Liked Photos Screen",
             fontSize = 22.sp
         )
     }

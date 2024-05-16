@@ -2,6 +2,7 @@ package br.com.noartcode.unsplashapp.android.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AllInclusive
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.HeartBroken
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,7 +29,7 @@ val listOfNavItems = listOf(
     ),
     NavItem(
         label = "Liked Photos",
-        icon = Icons.Filled.HeartBroken,
+        icon = Icons.Filled.Favorite,
         route = Screen.LikedPhotosRoot
     )
 )
