@@ -4,8 +4,12 @@ This is a sample Android app that implements the MVI architecture design pattern
 ### Screenshots
 
 
-| <video width="240" src="./screenshots/breeze.mp4" />  |
-|-------------------------------------------------------|
+
+
+
+
+| ![Preview](https://github.com/PauloHInocencio/Breeze/assets/7839629/5db44515-3782-4967-9c09-e42a827c36fd) |
+|-----------------------------------------------------------------------------------------------------------|
 
 <br/>
 
@@ -50,7 +54,7 @@ This is a sample Android app that implements the MVI architecture design pattern
 
 ### Setup
 
-Using `local.properties` for define api key:
+Using `local.properties` to define API key:
 
 ```properties
 API_ACCESS_KEY="{your-api-access-key}"
