@@ -1,15 +1,11 @@
 # Breeze
 This is a sample Android app that implements the MVI architecture design pattern. The app consumes data from the [Unsplash](https://unsplash.com/documentation#getting-started) API.
 
-### Screenshots
+### Preview
 
+| <video width="240" src="https://github.com/PauloHInocencio/Breeze/assets/7839629/5db44515-3782-4967-9c09-e42a827c36fd" /> |
+|---------------------------------------------------------------------------------------------------------------------------|
 
-
-
-
-
-| ![Preview](https://github.com/PauloHInocencio/Breeze/assets/7839629/5db44515-3782-4967-9c09-e42a827c36fd) |
-|-----------------------------------------------------------------------------------------------------------|
 
 <br/>
 
