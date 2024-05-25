@@ -4,8 +4,8 @@ This is a sample Android app that implements the MVI architecture design pattern
 ### Screenshots
 
 
-| <img width="240" src="./screenshots/breeze.breeze.mp4" /> |
-|-----------------------------------------------------------|
+| <video width="240" src="./screenshots/breeze.mp4" />  |
+|-------------------------------------------------------|
 
 <br/>
 
@@ -24,31 +24,31 @@ This is a sample Android app that implements the MVI architecture design pattern
 <br/>
 
 
-## Screens
+### Screens
 
-- [x] Random list of photos screen
-- [ ] Detail screen with
-  - [x] **Pinch** to zoom
-  - [x] **Double tap** to zoom in/out
-  - [x] **Drag** to pan (while zoomed)
-  - [ ] **Scale and Translation** animations
-  - [ ] total of likes info.
-  - [ ] photo's description and author
-- [ ] Search photos screen
-- [ ] Liked photos screen
+- :white_check_mark: Random list of photos screen
+- :white_large_square: Detail screen with
+  - :white_check_mark: **Pinch** to zoom
+  - :white_check_mark: **Double tap** to zoom in/out
+  - :white_check_mark: **Drag** to pan (while zoomed)
+  - :white_large_square: **Scale and Translation** animations
+  - :white_large_square: total of likes info.
+  - :white_large_square: photo's description and author
+- :white_large_square: Search photos screen
+- :white_large_square: Liked photos screen
 
-## Features
+### Features
 
-- [ ] Like a photo
-- [ ] Download a photo
+- :white_large_square: Like a photo
+- :white_large_square: Download a photo
 
-## Tasks
+### Tasks
 
-- [ ] Cover `ViewModels` with unit tests
-- [ ] Cover screens with UI testing
+- :white_large_square: Cover `ViewModels` with unit tests
+- :white_large_square: Cover screens with UI testing
 
 
-## Setup
+### Setup
 
 Using `local.properties` for define api key:
 
