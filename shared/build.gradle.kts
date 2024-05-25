@@ -41,7 +41,7 @@ kotlin {
 }
 
 android {
-    namespace = "br.com.noartcode.unsplashapp"
+    namespace = "br.com.noartcode.breeze"
     compileSdk = 34
     defaultConfig {
         minSdk = 24

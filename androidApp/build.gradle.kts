@@ -11,10 +11,10 @@ plugins {
 
 
 android {
-    namespace = "br.com.noartcode.unsplashapp.android"
+    namespace = "br.com.noartcode.breeze.android"
     compileSdk = 34
     defaultConfig {
-        applicationId = "br.com.noartcode.unsplashapp.android"
+        applicationId = "br.com.noartcode.breeze.android"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

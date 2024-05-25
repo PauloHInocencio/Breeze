@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Unsplash-Android"
+rootProject.name = "Breeze"
 include(":androidApp")
 include(":shared")
